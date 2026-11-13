@@ -8,7 +8,16 @@ find_package(Qt6 REQUIRED COMPONENTS Widgets)
 
 find_package(OpenCV REQUIRED COMPONENTS core imgproc videoio)
 
-add_executable(perrete_face_tracking src/main.cpp)
+file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/headers/*.h
+)
+
+add_executable(perrete_face_tracking ${SOURCES})
+
+target_include_directories(perrete_face_tracking PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/headers
+)
 
 target_link_libraries(perrete_face_tracking PRIVATE Qt6::Widgets ${OpenCV_LIBS})
 

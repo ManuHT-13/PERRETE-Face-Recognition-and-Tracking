@@ -1,10 +1,10 @@
-#include "MainWindow.h"
-
 #include <QLabel>
 #include <QPushButton>
 #include <QVBoxLayout>
 
-// First initialize base class QMainWindow
+#include "gui/MainWindow.h"
+
+
 MainWindow::MainWindow(QWidget* parent): QMainWindow(parent) {
     setupUI();
 }

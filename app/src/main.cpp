@@ -9,8 +9,8 @@
 #include <opencv2/core.hpp>
 #include <opencv2/highgui.hpp>
 
-#include "MainWindow.h"
-#include "CameraCapture.h"
+#include "gui/MainWindow.h"
+#include "capture/CameraCapture.h"
 
 
 int main(int argc, char* argv[]) {

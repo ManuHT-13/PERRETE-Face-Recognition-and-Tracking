@@ -7,7 +7,7 @@
 #include <opencv2/videoio.hpp>
 #include <opencv2/core.hpp>
 
-#include "CameraCapture.h"
+#include "capture/CameraCapture.h"
 
 
 CameraCapture::~CameraCapture() {
