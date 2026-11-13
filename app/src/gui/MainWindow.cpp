@@ -11,7 +11,7 @@ MainWindow::MainWindow(QWidget* parent): QMainWindow(parent) {
 
 MainWindow::~MainWindow() = default;
 
-MainWindow::setupUI() {
+void MainWindow::setupUI() {
 
     setWindowTitle("PERRETE Face Tracker");
     resize(1280, 720);

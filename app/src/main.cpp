@@ -1,24 +1,46 @@
+#include <iostream>
+#include <stdexcept>
+
 #include <QApplication>
 #include <QLabel>
 #include <QDebug>
+
 #include <opencv2/videoio.hpp>
+#include <opencv2/core.hpp>
+#include <opencv2/highgui.hpp>
+
+#include "MainWindow.h"
+#include "CameraCapture.h"
+
 
 int main(int argc, char* argv[]) {
-    QApplication app(argc, argv);
 
-    cv::VideoCapture cap(0, cv::CAP_DSHOW);
-    if (cap.isOpened()) {
+    CameraCapture camera_capture;
+
+    try {
+
+        camera_capture.start();
         cv::Mat frame;
-        cap >> frame;
-        qDebug() << "Camera:" << frame.cols << "x" << frame.rows;
-    }
-    else {
-        qDebug() << "Not camera :(";
-    }
 
-    QLabel ventana("Face Tracking System");
-    ventana.resize(640, 480);
-    ventana.show();
+        while (true) {
 
-    return app.exec();
+            if (camera_capture.getLastFrame(frame))
+                cv::imshow("Camera Capture", frame);
+
+            if (cv::waitKey(1) == 'q') break;
+
+        }
+
+        camera_capture.stop();
+        cv::destroyAllWindows();
+
+
+    } catch (const std::exception& e) {
+        std::cerr << "[ERROR] Camera: " << e.what() << '\n';
+        return 1;
+    }
+    
+    
+    return 0;
+
 }
