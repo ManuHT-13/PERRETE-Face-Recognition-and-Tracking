@@ -18,15 +18,15 @@ void CameraCapture::capture() {
 
     cv::Mat frame;
 
-    while (running) {
+    while (running_) {
 
-        cap >> frame;
+        cap_ >> frame;
 
         if (frame.empty())
             continue;
 
-        std::lock_guard<std::mutex> lock(mut);
-        last_frame = frame.clone();
+        std::lock_guard<std::mutex> lock(mut_);
+        last_frame_ = frame.clone();
 
     }
 
@@ -34,41 +34,39 @@ void CameraCapture::capture() {
 
 void CameraCapture::start() {
 
-    if (running)
+    if (running_)
         return;
 
-    cap.open(0);
+    cap_.open(0);
 
-    if (!cap.isOpened())
+    if (!cap_.isOpened())
         throw std::runtime_error("Couldn't open the camera");
 
-    running = true;
-    running_thread = std::thread(&CameraCapture::capture, this);
+    running_ = true;
+    running_thread_ = std::thread(&CameraCapture::capture, this);
 
 }
 
 void CameraCapture::stop() {
     
-    running = false;
+    running_ = false;
 
-    if (running_thread.joinable())
-        running_thread.join();
+    if (running_thread_.joinable())
+        running_thread_.join();
 
-    cap.release();
+    cap_.release();
 
 }
 
 bool CameraCapture::getLastFrame(cv::Mat& out) {
 
-    std::lock_guard<std::mutex> lock(mut);
+    std::lock_guard<std::mutex> lock(mut_);
 
-    if (last_frame.empty())
+    if (last_frame_.empty())
         return false;
     else {
-
-        out = last_frame.clone();
+        out = last_frame_.clone();
         return true;
-
     }
 
 } 

@@ -11,20 +11,9 @@
 
 class CameraCapture {
 
-private:
-
-    std::thread running_thread;
-    std::atomic<bool> running; 
-    std::mutex mut;
-
-    cv::VideoCapture cap;
-    cv::Mat last_frame;
-
-    void capture();
-
 public:
 
-    CameraCapture(): running(false) {}
+    CameraCapture(): running_(false) {}
     ~CameraCapture();
 
     CameraCapture(const CameraCapture&) = delete;
@@ -34,6 +23,17 @@ public:
     void stop();
 
     bool getLastFrame(cv::Mat& out);
+
+private:
+
+    std::thread running_thread_;
+    std::atomic<bool> running_;
+    std::mutex mut_;
+
+    cv::VideoCapture cap_;
+    cv::Mat last_frame_;
+
+    void capture();
 
 };
 
